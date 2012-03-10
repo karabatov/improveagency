@@ -37,10 +37,10 @@ endif;
 <link href="/favicon.ico" rel="icon" type="image/x-icon" />
 <?php wp_enqueue_script('jquery'); ?>
 <?php wp_head(); ?>
-<script language="javascript" type="text/javascript" src="<?php bloginfo('template_url'); ?>/script/jquery.masonry.js"></script>
+<script language="javascript" type="text/javascript" src="<?php bloginfo('template_url'); ?>/script/jquery.masonry.min.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function($){
-  $('#partners').masonry({ gutterWidth: 10 });
+  $('#masonry').masonry({ gutterWidth: 10 });
 });
 </script>
 </head> 

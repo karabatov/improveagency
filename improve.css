@@ -389,6 +389,15 @@ img.centered {
   padding-top: 20px;
   border-top: 1px dashed #CCC;
 }
+#masonry {
+  display: inline;
+  float: left;
+  overflow: hidden;
+  width: 940px;  
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px dashed #CCC;
+}
 #footer {
   display: inline;
   float: left;

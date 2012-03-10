@@ -516,23 +516,47 @@ class Improve_Agency_Masonry_Widget extends WP_Widget {
 		<?php global $post; ?>
             <?php $custom_fields = get_post_custom($post->ID); ?>
             <?php if ($custom_fields['Masonry']) :
-                echo '<div id="partners">';
+                echo '<div id="masonry">';
                 foreach ($custom_fields['Masonry'] as $brick) {
                     $cimg = wp_get_attachment_image_src($brick, 'full');
                     $pimg = get_post($brick);
                     $imglink = $pimg->post_excerpt;
-                    if ($imglink == ''): $imglink = '#'; endif;
                     $imgalt = get_post_meta($brick, '_wp_attachment_image_alt', true);
-                    echo '<a href="'.$imglink.'" target="_blank"><img src="'.$cimg[0].'" width="'.$cimg[1].'" height="'.$cimg[2].'" alt="'.$imgalt.'"></a>';}
+                    if ($imglink == '') :
+                        echo  '<img src="'.$cimg[0].'" width="'.$cimg[1].'" height="'.$cimg[2].'" alt="'.$imgalt.'">';
+                    else :
+                        echo '<a href="'.$imglink.'" target="_blank"><img src="'.$cimg[0].'" width="'.$cimg[1].'" height="'.$cimg[2].'" alt="'.$imgalt.'"></a>';
+                    endif;
+                }
                 echo '</div>';
             endif; ?>
         <?php elseif ( is_home() ) :
             $defimg = empty( $instance['defimg'] ) ? '' : $instance['defimg'];
             if (!($defimg == '')) :
                 echo '<div id="partners"><img src="'.$defimg.'" alt="Спонсоры"></div>';
-            endif;
-        //endif;
-        ?>
+            else :            
+                global $post;
+                $args = array( 'numberposts' => 1, 'category' => 5 );
+		        $lastposts = get_posts( $args );
+		        foreach($lastposts as $post) : setup_postdata($post);
+                $custom_fields = get_post_custom($post->ID);
+                if ($custom_fields['Masonry']) :
+                    echo '<div id="masonry">';
+                    foreach ($custom_fields['Masonry'] as $brick) {
+                        $cimg = wp_get_attachment_image_src($brick, 'full');
+                        $pimg = get_post($brick);
+                        $imglink = $pimg->post_excerpt;
+                        $imgalt = get_post_meta($brick, '_wp_attachment_image_alt', true);
+                        if ($imglink == '') :
+                            echo  '<img src="'.$cimg[0].'" width="'.$cimg[1].'" height="'.$cimg[2].'" alt="'.$imgalt.'">';
+                        else :
+                            echo '<a href="'.$imglink.'" target="_blank"><img src="'.$cimg[0].'" width="'.$cimg[1].'" height="'.$cimg[2].'" alt="'.$imgalt.'"></a>';
+                        endif;
+                    }
+                    echo '</div>';
+                endif; 
+                endforeach; 
+            endif; ?>
 		<?php
 
 		// Reset the post globals as this query will have stomped on it
@@ -571,7 +595,7 @@ class Improve_Agency_Masonry_Widget extends WP_Widget {
 	function form( $instance ) {
 		$defimg = isset( $instance['defimg']) ? esc_attr( $instance['defimg'] ) : '';
 ?>
-			<p><label for="<?php echo esc_attr( $this->get_field_id( 'defimg' ) ); ?>"><?php echo('Логотип спонсоров на главной странице:'); ?></label>
+			<p><label for="<?php echo esc_attr( $this->get_field_id( 'defimg' ) ); ?>"><?php echo('Ссылка на статичную картинку для главной страницы. Иначе на главной будут логотипы Featured записи.'); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'defimg' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'defimg' ) ); ?>" type="text" value="<?php echo esc_attr( $defimg ); ?>" /></p>
 		<?php
 	}
