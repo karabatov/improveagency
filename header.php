@@ -63,6 +63,6 @@ jQuery(document).ready(function($){
 <div id="menu">
 	<ul id="pages">
 		<li class="page_item <?php if ( is_home() ) echo 'selected'; ?>"><a href="<?php echo get_option('home'); ?>">Главная</a></li>
-		<?php wp_list_pages('title_li=&depth=1'); ?>
+		<?php wp_nav_menu(array('container' => '', 'menu' => 'custom_menu', 'fallback_cb' => false, 'items_wrap' => '%3$s')); ?>
 	</ul>
 </div>

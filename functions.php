@@ -879,4 +879,10 @@ function admin_favicon() {
 }
 add_action('admin_head', 'admin_favicon');
 	
+// add custom menu support
+add_action('init', 'register_custom_menu');
+ 
+function register_custom_menu() {
+    register_nav_menu('custom_menu', __('Custom Menu'));
+}
 ?>
